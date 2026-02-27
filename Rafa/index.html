@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rafa Shop Promoções</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: #1a7a1a;
+      font-family: 'Nunito', sans-serif;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* Partículas de fundo */
+    .particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.18;
+      animation: floatUp linear infinite;
+    }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(110vh) scale(0.5); opacity: 0.18; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+
+    /* Círculos de brilho */
+    .glow-ring {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.25;
+      animation: pulse 4s ease-in-out infinite alternate;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .glow-ring.r1 { width: 500px; height: 500px; background: #aaff00; top: -150px; left: -150px; animation-delay: 0s; }
+    .glow-ring.r2 { width: 400px; height: 400px; background: #ffdd00; bottom: -100px; right: -100px; animation-delay: 2s; }
+    @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.3); } }
+
+    /* Card central */
+    .card {
+      position: relative;
+      z-index: 10;
+      background: linear-gradient(145deg, #2da52d, #1e7a1e);
+      border: 3px solid #7fff00;
+      border-radius: 32px;
+      padding: 48px 40px 40px;
+      max-width: 440px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 0 60px rgba(100,255,0,0.3), 0 20px 60px rgba(0,0,0,0.4);
+      animation: cardIn 0.8s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    @keyframes cardIn {
+      from { transform: translateY(60px) scale(0.8); opacity: 0; }
+      to   { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    /* Badge promoção */
+    .badge {
+      display: inline-block;
+      background: #ffdd00;
+      color: #1a5e1a;
+      font-weight: 900;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 16px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+      animation: badgePop 1s 0.5s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    @keyframes badgePop {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+
+    /* Logo */
+    .logo-wrap {
+      margin-bottom: 8px;
+      animation: logoBounce 2s 0.3s ease-in-out infinite;
+    }
+    @keyframes logoBounce {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
+    .logo-wrap img { width: 200px; border-radius: 16px; }
+
+    /* Tagline */
+    .tagline {
+      color: #ccffaa;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.9s forwards;
+    }
+    .highlight {
+      color: #ffdd00;
+      font-size: 1.15rem;
+      font-weight: 900;
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.6s 1.1s forwards;
+    }
+    @keyframes fadeUp {
+      from { transform: translateY(16px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Botão WhatsApp */
+    .btn-wpp {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, #25d366, #128c3e);
+      color: #fff;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 1.15rem;
+      text-decoration: none;
+      padding: 18px 36px;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 8px 30px rgba(37,211,102,0.5);
+      transition: transform 0.15s, box-shadow 0.15s;
+      animation: btnPop 0.7s 1.3s cubic-bezier(.34,1.56,.64,1) both, btnGlow 2s 2s ease-in-out infinite;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-wpp::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -60%;
+      width: 40%; height: 200%;
+      background: rgba(255,255,255,0.25);
+      transform: skewX(-20deg);
+      animation: shine 3s 2s linear infinite;
+    }
+    @keyframes shine {
+      0%   { left: -60%; }
+      100% { left: 140%; }
+    }
+    @keyframes btnPop {
+      from { transform: scale(0.5); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+    @keyframes btnGlow {
+      0%, 100% { box-shadow: 0 8px 30px rgba(37,211,102,0.5); }
+      50%      { box-shadow: 0 8px 50px rgba(37,211,102,0.9); }
+    }
+    .btn-wpp:hover { transform: scale(1.07); box-shadow: 0 12px 40px rgba(37,211,102,0.8); }
+    .btn-wpp:active { transform: scale(0.97); }
+
+    .btn-wpp svg { width: 28px; height: 28px; flex-shrink: 0; }
+
+    /* Emoji animado */
+    .emojis {
+      margin-top: 24px;
+      font-size: 1.4rem;
+      letter-spacing: 6px;
+      opacity: 0;
+      animation: fadeUp 0.6s 1.6s forwards;
+    }
+
+    /* Contador de membros fake */
+    .members {
+      margin-top: 14px;
+      font-size: 0.8rem;
+      color: #aaeeaa;
+      font-weight: 700;
+      opacity: 0;
+      animation: fadeUp 0.6s 1.8s forwards;
+    }
+    .members span { color: #ffdd00; }
+  </style>
+</head>
+<body>
+
+  <!-- Brilhos de fundo -->
+  <div class="glow-ring r1"></div>
+  <div class="glow-ring r2"></div>
+
+  <!-- Partículas -->
+  <canvas class="particles" id="canvas"></canvas>
+
+  <!-- Card -->
+  <div class="card">
+    <div class="badge">🔥 Ofertas exclusivas todo dia</div>
+
+    <div class="logo-wrap">
+      <!-- Substitua o src pelo caminho da sua logo após o deploy -->
+      <img src="logo.png" alt="Rafa Shop Promoções" onerror="this.style.display='none'"/>
+    </div>
+
+    <p class="tagline">As melhores promoções estão aqui 👇</p>
+    <p class="highlight">Entra no grupo e não perde nenhuma oferta!</p>
+
+    <a class="btn-wpp" href="https://chat.whatsapp.com/ITIkomLboHm7Wo3cdWZ30p" target="_blank" rel="noopener">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#fff" d="M16 2C8.268 2 2 8.268 2 16c0 2.498.651 4.845 1.79 6.877L2 30l7.345-1.768A13.928 13.928 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm0 25.6a11.56 11.56 0 01-5.89-1.61l-.42-.25-4.36 1.05 1.08-4.24-.27-.44A11.56 11.56 0 014.4 16C4.4 9.596 9.596 4.4 16 4.4S27.6 9.596 27.6 16 22.404 27.6 16 27.6zm6.34-8.72c-.347-.174-2.055-1.014-2.374-1.13-.319-.115-.551-.174-.783.174-.232.347-.9 1.13-1.103 1.362-.203.232-.406.261-.753.087-.347-.174-1.464-.54-2.788-1.72-1.03-.917-1.726-2.049-1.929-2.396-.203-.347-.021-.535.152-.708.157-.156.347-.406.521-.609.174-.203.232-.347.347-.579.116-.232.058-.435-.029-.609-.087-.174-.783-1.888-1.073-2.585-.283-.679-.57-.587-.783-.598l-.667-.011c-.232 0-.609.087-.927.435-.319.347-1.218 1.189-1.218 2.9s1.247 3.363 1.42 3.595c.174.232 2.453 3.745 5.944 5.251.831.359 1.48.573 1.985.733.834.265 1.594.228 2.194.138.669-.1 2.055-.84 2.345-1.652.29-.812.29-1.508.203-1.652-.086-.144-.318-.232-.666-.406z"/>
+      </svg>
+      Entrar no Grupo Agora
+    </a>
+
+    <div class="emojis">🛍️ 💸 🎁 🔖 ✨</div>
+    <p class="members">Mais de <span>1.200 membros</span> já aproveitando!</p>
+  </div>
+
+  <script>
+    // Partículas flutuantes
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const colors = ['#7fff00','#ffdd00','#25d366','#ffffff','#aaffaa'];
+    for (let i = 0; i < 55; i++) {
+      particles.push({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        r: Math.random() * 6 + 2,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        speed: Math.random() * 0.8 + 0.3,
+        opacity: Math.random() * 0.4 + 0.1,
+        drift: (Math.random() - 0.5) * 0.5
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.opacity;
+        ctx.fill();
+        p.y -= p.speed;
+        p.x += p.drift;
+        if (p.y + p.r < 0) {
+          p.y = H + p.r;
+          p.x = Math.random() * W;
+        }
+      });
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
+</body>
+</html>
